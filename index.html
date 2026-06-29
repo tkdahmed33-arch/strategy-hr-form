@@ -287,7 +287,7 @@
           <div class="field full"><label>المسمى الوظيفي الحالي</label><input id="jobTitle" placeholder="مثال: HR Specialist"></div>
           <div class="field full">
             <label>الوظيفة المتقدم إليها <span class="req">*</span></label>
-            <select id="jobApplied"><option value="">يتم تحميل القائمة...</option></select>
+            <select id="jobApplied"><option value="">جاري التحميل...</option></select>
             <span class="error-msg">اختر الوظيفة</span>
           </div>
           <div class="field"><label>الراتب المتوقع</label><input type="number" id="salary" placeholder="8000"></div>
@@ -311,33 +311,33 @@
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdLIdsZNQZ2KQTNluOZBjBVC86dyO1PB1YXuQvpA5pNZJEoZnyLKOCHf2yrOv3d8ie6g/exec';
 
-    async function loadJobs() {
+    // ========== تحميل الوظائف باستخدام JSONP ==========
+    window.loadJobsCallback = function(data) {
       const select = document.getElementById('jobApplied');
-      select.innerHTML = '<option value="">جاري التحميل...</option>';
-      try {
-        const res = await fetch(`${SCRIPT_URL}?action=listJobs`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        console.log('listJobs response:', data);
-        select.innerHTML = '<option value="">اختر الوظيفة</option>';
-        if (data.status === 'success' && Array.isArray(data.jobs) && data.jobs.length > 0) {
-          data.jobs.forEach(job => {
-            const opt = document.createElement('option');
-            opt.value = job;
-            opt.textContent = job;
-            select.appendChild(opt);
-          });
-        } else {
-          select.innerHTML = '<option value="">لا توجد وظائف متاحة</option>';
-          console.warn('الوظائف فارغة:', data);
-        }
-      } catch (e) {
-        console.error('فشل تحميل الوظائف:', e);
-        select.innerHTML = '<option value="">تعذر تحميل الوظائف</option>';
+      select.innerHTML = '<option value="">اختر الوظيفة</option>';
+      if (data.status === 'success' && Array.isArray(data.jobs) && data.jobs.length > 0) {
+        data.jobs.forEach(job => {
+          const opt = document.createElement('option');
+          opt.value = job;
+          opt.textContent = job;
+          select.appendChild(opt);
+        });
+      } else {
+        select.innerHTML = '<option value="">لا توجد وظائف متاحة</option>';
       }
+    };
+
+    function loadJobs() {
+      const script = document.createElement('script');
+      script.src = SCRIPT_URL + '?action=listJobs&callback=loadJobsCallback';
+      script.onerror = function() {
+        document.getElementById('jobApplied').innerHTML = '<option value="">تعذر تحميل الوظائف</option>';
+      };
+      document.body.appendChild(script);
     }
     loadJobs();
 
+    // Canvas and other logic (unchanged)
     (function() {
       const canvas = document.getElementById('spaceCanvas');
       const ctx = canvas.getContext('2d');
@@ -349,10 +349,8 @@
         for (let i = 0; i < 200; i++) {
           stars.push({
             x: Math.random() * w, y: Math.random() * h,
-            r: Math.random() * 2.5 + 0.3,
-            speed: Math.random() * 0.3 + 0.05,
-            alpha: Math.random() * 0.7 + 0.2,
-            twinkle: Math.random() * 0.02 + 0.005,
+            r: Math.random() * 2.5 + 0.3, speed: Math.random() * 0.3 + 0.05,
+            alpha: Math.random() * 0.7 + 0.2, twinkle: Math.random() * 0.02 + 0.005,
             color: Math.random() < 0.2 ? '235,7,5' : '255,255,255'
           });
         }
