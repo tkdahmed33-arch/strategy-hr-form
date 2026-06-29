@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -275,10 +276,8 @@
 
     <div class="progress"><div class="progress-bar" id="progressFill" style="width:33%"></div></div>
 
-    <!-- Step 1 -->
     <div id="step1"><div class="glass-card"><div class="card-head"><div class="card-icon">👤</div><div><div class="card-title">البيانات الشخصية</div></div></div><div class="grid-2"><div class="field full"><label>الاسم الكامل <span class="req">*</span></label><input id="fullName" placeholder="الاسم الرباعي"><span class="error-msg">أدخل اسمك الكامل</span></div><div class="field"><label>الهاتف <span class="req">*</span></label><input id="phone" placeholder="01xxxxxxxxx" maxlength="11"><span class="error-msg">رقم مصري 11 رقم</span></div><div class="field"><label>البريد الإلكتروني</label><input id="email" placeholder="example@email.com"><span class="error-msg">بريد غير صحيح</span></div><div class="field full"><label>الرقم القومي <span class="req">*</span></label><div class="id-wrap"><span class="id-count" id="idCounter">14</span><input id="nationalId" placeholder="xxxxxxxxxxxxxxxx" maxlength="14" oninput="handleID(this)"></div><span class="error-msg">14 رقم يبدأ بـ 2 أو 3</span></div><div class="field"><label>الجنس <span class="req">*</span></label><select id="gender"><option value="">اختر</option><option>ذكر</option><option>أنثى</option></select><span class="error-msg">مطلوب</span></div><div class="field"><label>المحافظة <span class="req">*</span></label><select id="gov" onchange="loadCenters()"></select><span class="error-msg">مطلوب</span></div><div class="field full"><label>المركز / الحي <span class="req">*</span></label><select id="center"><option>اختر المحافظة أولاً</option></select><span class="error-msg">مطلوب</span></div></div></div></div>
 
-    <!-- Step 2 (تم تعديل ترتيب الحقول) -->
     <div id="step2" style="display:none;">
       <div class="glass-card">
         <div class="card-head"><div class="card-icon">🎓</div><div><div class="card-title">المؤهل والخبرة</div></div></div>
@@ -298,7 +297,6 @@
       <div class="glass-card" style="margin-top:16px;"><div class="card-head"><div class="card-icon">⚡</div><div><div class="card-title">المهارات</div></div></div><div class="chips" id="skillChips"><span class="chip" data-skill="Office">📌 Office</span><span class="chip" data-skill="Excel">📊 Excel</span><span class="chip" data-skill="Word">📝 Word</span><span class="chip" data-skill="PowerPoint">📽️ PowerPoint</span><span class="chip" data-skill="التواصل">🗣️ التواصل</span><span class="chip" data-skill="العمل الجماعي">🤝 العمل الجماعي</span><span class="chip" data-skill="القيادة">👑 القيادة</span><span class="chip" data-skill="حل المشكلات">🧩 حل المشكلات</span><span class="chip" data-skill="إدارة الوقت">⏳ إدارة الوقت</span><span class="chip" data-skill="اللغة الإنجليزية">🇬🇧 الإنجليزية</span><span class="chip" data-skill="المحاسبة">🧾 المحاسبة</span><span class="chip" data-skill="التسويق">📈 التسويق</span><span class="chip" data-skill="المبيعات">💼 المبيعات</span><span class="chip" data-skill="خدمة العملاء">🎧 خدمة العملاء</span></div><div style="display:flex; gap:10px;"><input id="skillInput" placeholder="أضف مهارة أخرى..."><button class="btn btn-primary" onclick="addSkill()" style="padding:12px 20px; font-size:20px;">+</button></div><div class="skill-tags" id="skillsTags" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div><span class="error-msg" id="skillError" style="display:none;">أضف مهارة واحدة على الأقل</span></div>
     </div>
 
-    <!-- Step 3 -->
     <div id="step3" style="display:none;"><div class="glass-card"><div class="card-head"><div class="card-icon">📄</div><div><div class="card-title">المرفقات</div></div></div><div class="field" style="margin-bottom:18px;"><label>السيرة الذاتية (PDF/Word) <span class="req">*</span></label><div class="drop-zone" id="dropZone" onclick="document.getElementById('cvFile').click()"><input type="file" id="cvFile" accept=".pdf,.doc,.docx" onchange="handleCV(this)"><div>📎</div><div style="font-size:14px;"><strong>اسحب الملف هنا</strong> أو انقر للاختيار</div><div class="file-ok" id="fileOk"></div></div><span class="error-msg" id="cvError" style="display:none;">الرجاء رفع السيرة الذاتية</span></div><div class="field" style="margin-bottom:20px;"><label>LinkedIn (اختياري)</label><input id="linkedin" placeholder="https://linkedin.com/in/..."></div><button class="btn-submit" id="submitBtn" onclick="submitForm()"><span id="submitText">🚀 إرسال الطلب</span><div class="spinner" id="spinner"></div></button></div></div>
 
     <div class="glass-card success-card" id="successPanel"><div class="check-circle">✓</div><div style="font-size:28px; font-weight:700;">تم إرسال طلبك بنجاح!</div><div style="color:var(--text-secondary); margin:10px 0;">فريق <strong style="color:var(--primary)">Strategy HR</strong> سيراجع طلبك ويتواصل معك قريباً.</div></div>
@@ -311,7 +309,6 @@
   </div>
 
   <script>
-    // استبدل هذا بالرابط الجديد بعد نشر Apps Script
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRDa7YwqMYK3qmpmEB8hiLfQUQDncDto8oV9EQt9gjyI3RkvolL0_s3tPWO19KwgsiRg/exec';
 
     async function loadJobs() {
@@ -332,7 +329,7 @@
           });
         } else {
           select.innerHTML = '<option value="">لا توجد وظائف متاحة</option>';
-          console.warn('الوظائف فارغة أو غير موجودة:', data);
+          console.warn('الوظائف فارغة:', data);
         }
       } catch (e) {
         console.error('فشل تحميل الوظائف:', e);
